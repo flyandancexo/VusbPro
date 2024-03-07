@@ -1,5 +1,5 @@
 # VusbPro - High Speed USBasp
-## VusbPro is the enhanced V-USB, a software-based USB device using an AVR MCU
+### VusbPro is the enhanced V-USB, a software-based USB device using an AVR MCU
 
 The V-usb project was under maintenance for about a decade, and over that period, different projects had been created with different levels of incomprehensible code and incompetence. VusbPro is an attempt to fix it and making V-usb more accessible with rewritten and more well commented examples. V-usb is a very under-rated project and it can be very useful if it can be easily used by hobbyist and professional alike. 
 
