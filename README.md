@@ -1,4 +1,4 @@
-# VusbPro - High Speed USBasp
+# VusbPro - Software based USB Device
 ### VusbPro is the enhanced V-USB, a software-based USB device using an AVR MCU
 
 ![VusbPro](https://github.com/flyandancexo/VusbPro/assets/66555404/f9632b5e-6cfe-4b00-8810-46677e1fc631)
