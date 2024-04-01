@@ -15,6 +15,13 @@ Beside rewriting all the code from V-usb and creating few new project examples, 
 - Create a USB bootloader using VusbPro 2.0
 - Create more example projects using VusbPro 2.0
 
+## Stage 1
+- IAR dependent code removed, so VusbPro only works with AVR-GCC compiler
+- Unnecessarily code removed, code rearranged in an orderly fashion
+- Outdated AVR code removed and/or replaced, improved code style
+- C Functions and macros renamed and rewritten
+- Data structure renamed back to standard and cleaned up
+
 ![VusbProNote](https://github.com/flyandancexo/VusbPro/assets/66555404/40102138-ee39-4917-ab51-7f64cb7bbd07)
 
 This is a long and complicated endeavour, so any support is very welcomed. Do donate whatever amount that you are comfortable with. 
