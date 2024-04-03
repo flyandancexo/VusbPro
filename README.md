@@ -1,12 +1,12 @@
 # VusbPro - Enhanced V-USB, a software-based USB device
-### High Speed USBasp firmware - New USB Bootloader using AVR MCU
+### High Speed USBasp firmware - New USB Bootloader using AVR MCU - libusb examples
 
 ![VusbPro](https://github.com/flyandancexo/VusbPro/assets/66555404/f9632b5e-6cfe-4b00-8810-46677e1fc631)
 
 My improvised VusbPro development setup: World faster programmer FDxICSP connected to a mini-heart 2 a Vusb compatible board and 6 wires soldering to a ICSP header connected to a tiny board, the world smallest MCU development board 20mm in diameter, not shown. 
 
 ## What is Vusb?
-V-usb is a pure software implementation of a USB 1.1 device targeting an AVR MCU. Most modern MCUs already have an internal module for communicating via USB, but most 8-bit AVR MCUs don't. With Vusb, it's possible to turn most AVR MCUs into a semi-USB 1.1 compatible device. It's not a perfect solution, nor is it fast, but being USB semi-compatible means it can be a great USB development tool. The popular micronucleus and USBasp are based on Vusb, but unfortunately, those dummies didn't contribute anything to the Vusb project. 
+V-usb is a pure software implementation of a USB 1.1 device targeting an AVR MCU. Most modern MCUs already have an internal module for communicating via USB, but most 8-bit AVR MCUs don't. With Vusb, it's possible to turn most AVR MCUs into a semi-USB 1.1 compatible device. It's not a perfect solution, nor is it fast, but being USB semi-compatible means it can be a great USB development tool. The popular micronucleus and USBasp are based on Vusb, but unfortunately, those dummies didn't contribute anything to the Vusb project.
 
 The V-usb project itself was under maintenance for about a decade, and over that period, different projects had been created with different levels of incomprehensible code and incompetence. VusbPro is an attempt to fix it, making V-usb more accessible by rewriting everything and adding more good comments and more intuitive examples. V-usb is a very under-rated project and it can be very useful if it can be easily used by hobbyist and professional alike. 
 
