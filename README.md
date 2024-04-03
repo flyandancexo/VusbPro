@@ -6,7 +6,7 @@
 My improvised VusbPro development setup: World faster programmer FDxICSP connected to a mini-heart 2 a Vusb compatible board and 6 wires soldering to a ICSP header connected to a tiny board, the world smallest MCU development board 20mm in diameter, not shown. 
 
 ## What is Vusb?
-V-usb is a pure software implementation of a USB 1.1 device targeting an AVR MCU. Most modern MCUs already have an internal module for communicating via USB, but most 8-bit AVR MCUs don't. With Vusb, it's possible to turn most AVR MCUs into a semi-USB 1.1 compatible device. It's not a perfect solution, nor is it fast, but being USB semi-compatible means it can be a great USB development tool. The popular micronucleus and USBasp are based on Vusb, but unfortunately, those dummies didn't contribute anything on the Vusb project. 
+V-usb is a pure software implementation of a USB 1.1 device targeting an AVR MCU. Most modern MCUs already have an internal module for communicating via USB, but most 8-bit AVR MCUs don't. With Vusb, it's possible to turn most AVR MCUs into a semi-USB 1.1 compatible device. It's not a perfect solution, nor is it fast, but being USB semi-compatible means it can be a great USB development tool. The popular micronucleus and USBasp are based on Vusb, but unfortunately, those dummies didn't contribute anything to the Vusb project. 
 
 The V-usb project itself was under maintenance for about a decade, and over that period, different projects had been created with different levels of incomprehensible code and incompetence. VusbPro is an attempt to fix it, making V-usb more accessible by rewriting everything and adding more good comments and more intuitive examples. V-usb is a very under-rated project and it can be very useful if it can be easily used by hobbyist and professional alike. 
 
@@ -18,9 +18,9 @@ MCU, low level assembly, high level C, driver and USB are all the very-hard-to-g
 
 # The Plan
 - Rewrite Vusb to VusbPro 1.0 (80% DONE)
-- Create a beta USBasp firmware based on VusbPro 1.0
+- Create a beta 10kB/s+ W/R USBasp firmware based on VusbPro 1.0
 - Enhance the algorithms from VusbPro 1.0 to VusbPro 2.0
-- Create a final USBasp firmware with VusbPro 2.0
+- Create a final high speed USBasp firmware with VusbPro 2.0
 - Create a USB bootloader using VusbPro 2.0
 - Create more example projects using VusbPro 2.0
 - Create few good development boards for VusbPro 2.0
