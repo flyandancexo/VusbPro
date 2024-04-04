@@ -1,5 +1,5 @@
 # VusbPro - Enhanced V-USB, a software-based USB device
-### High Speed USBasp firmware - New USB Bootloader using AVR MCU - libusb examples
+### High Speed USBasp firmware - New USB Bootloader using AVR MCU - libusb
 
 ![VusbPro](https://github.com/flyandancexo/VusbPro/assets/66555404/f9632b5e-6cfe-4b00-8810-46677e1fc631)
 
