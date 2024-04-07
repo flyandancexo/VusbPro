@@ -12,7 +12,7 @@ The V-usb project itself was under maintenance for about a decade, and over that
 
 Beside rewriting all the code from V-usb and creating few new project examples, the snail slow USBasp will be updated with a guarantee 10kB/s write and 15kB/s read speed, and the USBaspbootloader will be updated to make it more user-friendly, and with auto-upload capability. And of course, few extremely high quality development boards will be developed for it.
 
-## What is hurdle?
+## What is the hurdle?
 MCU, low level assembly, high level C, driver and USB are all the very-hard-to-get-over hurdles. I am an expert on all the above, except for the USB. USB stands for Universal Serial Bus. It makes life easier for everyone but the developers. USB is actually fairly complicated, and I have read few books on it over the past few months and still not 100% sure for everything, but it's more than enough to start this project. USB shouldn't be that complicated. It's the exchange of data between a device and a host. It should be very easy and intuitive, so that is the absolute main goal and objective for VusbPro. The Pro here doesn't not stand for professional, but it's proficient and productive.
 
 ![F](https://github.com/flyandancexo/VusbPro/assets/66555404/1a1ddd36-010e-4f2a-8af8-0fbb151bcd2d)
@@ -25,6 +25,7 @@ MCU, low level assembly, high level C, driver and USB are all the very-hard-to-g
 - Create a USB bootloader using VusbPro 2.0
 - Create more example projects using VusbPro 2.0
 - Create few good development boards for VusbPro 2.0
+- Create few simple and high quality host-side templates
 
 ## Stage 1
 - IAR dependent code removed, so VusbPro only works with AVR-GCC compiler
@@ -87,6 +88,11 @@ int	main(void){
 ```
 
 usbRxBuf[] is a raw RX buffer array that contains 1 byte PID, 8 bytes data, 2 bytes CRC; It's an array, but is used by pointer arithmetic as pointer to data. usbRequest_t is an 8 bytes data struct type. The data is being recasted into void* pointer, then converted to an 8-byte data structure for processing. usbFunctionSetup() returns either an uint8_t or uint16_t number, and this is the reply length for the usbProcessRx(); usbProcessRx() doesn't return anything, so the data are passed through it via the pointer. It essentially receives and sends data via the interrupt function. usbPoll() is not really doing the polling on the USB because the USB data pins are monitored by external interrupt, so what usbPoll() does is to check if new data has arrived or not, and then call usbProcessRx() to retrieve the data. This has been over-simplified, and yet still is very complicated, but it really doesn't have to be like that. It really doesn't. 
+
+
+## USB
+
+To develop one unique USB device, 4 different software stages minimal are required. VusbPro is only one of them. The other 3 are 1, USB device's own application; 2, the host side driver; and 3, the host side application. The host side can be coded using libusb, but unfortunately this claimed to be easy solution for developing USB under various platforms is obscurity in design with very lacking of good documentation and simple examples. In reality, libusb is very simple to the fully knowledgeable coder. The ultimate objective for VusbPro is the creation of 2 types of simple examples using all the possible methods on USB: 1, USB-host controls a blinking LED on a USB-device; 2, USB-device send an incrementing number to the USB-host. These rudimentary examples serve as a foundation for creating more elaborated projects. Since VusbPro is the main objective of this project, in-depth exploitation on other 3 stages is not within the scope of VusbPro, but fundamental understanding all of them and the USB protocol are essentially for proficiency on using VusbPro. 
 
 
 ![VusbProNote](https://github.com/flyandancexo/VusbPro/assets/66555404/40102138-ee39-4917-ab51-7f64cb7bbd07)
