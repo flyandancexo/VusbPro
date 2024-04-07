@@ -15,8 +15,6 @@ Beside rewriting all the code from V-usb and creating few new project examples, 
 ## What is the hurdle?
 MCU, low level assembly, high level C, driver and USB are all the very-hard-to-get-over hurdles. I am an expert on all the above, except for the USB. USB stands for Universal Serial Bus. It makes life easier for everyone but the developers. USB is actually fairly complicated, and I have read few books on it over the past few months and still not 100% sure for everything, but it's more than enough to start this project. USB shouldn't be that complicated. It's the exchange of data between a device and a host. It should be very easy and intuitive, so that is the absolute main goal and objective for VusbPro. The Pro here doesn't not stand for professional, but it's proficient and productive.
 
-![F](https://github.com/flyandancexo/VusbPro/assets/66555404/1a1ddd36-010e-4f2a-8af8-0fbb151bcd2d)
-
 # The Plan
 - Rewrite Vusb to VusbPro 1.0 (80% DONE)
 - Create a beta 10kB/s+ W/R USBasp firmware based on VusbPro 1.0
@@ -26,6 +24,8 @@ MCU, low level assembly, high level C, driver and USB are all the very-hard-to-g
 - Create more example projects using VusbPro 2.0
 - Create few good development boards for VusbPro 2.0
 - Create few simple and high quality host-side templates
+
+![F](https://github.com/flyandancexo/VusbPro/assets/66555404/1a1ddd36-010e-4f2a-8af8-0fbb151bcd2d)
 
 ## Stage 1
 - IAR dependent code removed, so VusbPro only works with AVR-GCC compiler
@@ -37,9 +37,9 @@ MCU, low level assembly, high level C, driver and USB are all the very-hard-to-g
 
 The first stage is to clean up the source code in a simplified and easy to read format with good indentations and good comments. Good commenting is the the difference between good code and bad code, so a lot of the effort are spent on rewriting the old comments and adding more comments. IAR compiler option is removed to simplify the source code, and for the fact that I don't use it and it's a paid product. VusbPro 1.0 focuses more on backward compatibility with Vusb, simplification and clarification for moving forward.
 
-![G](https://github.com/flyandancexo/VusbPro/assets/66555404/d8483e9c-6b5f-4520-a24b-16ad8e4e512c)
-
 ## Vusb Decoded
+
+![G](https://github.com/flyandancexo/VusbPro/assets/66555404/d8483e9c-6b5f-4520-a24b-16ad8e4e512c)
 
 The source code is freely available for anyone to read, but unfortunately, it's very badly written and even more badly documented, and that is exactly why most projects don't even dare to modify the so called driver code. With the rewritten VusbPro, it's clear how the driver works, but you still must be proficient in advanced C programming language namely pointer to grasp how this code actually works. Because it's also written with very bad embedded MCU code; Trying to understand that part could also be with great difficulties for people not fully understand how the MCU works. For now, we focus on the **big picture**. 
 
@@ -91,6 +91,8 @@ usbRxBuf[] is a raw RX buffer array that contains 1 byte PID, 8 bytes data, 2 by
 
 
 ## USB
+
+![I](https://github.com/flyandancexo/VusbPro/assets/66555404/d843eabe-b5b0-4dda-9b1a-284df91a9ee4)
 
 To develop one unique USB device, 4 different software stages minimal are required. VusbPro is only one of them. The other 3 are 1, USB device's own application; 2, the host side driver; and 3, the host side application. The host side can be coded using libusb, but unfortunately this claimed to be easy solution for developing USB under various platforms is obscurity in design with very lacking of good documentation and simple examples. In reality, libusb is very simple to the fully knowledgeable coder. The ultimate objective for VusbPro is the creation of 2 types of simple examples using all the possible methods on USB: 1, USB-host controls a blinking LED on a USB-device; 2, USB-device send an incrementing number to the USB-host. These rudimentary examples serve as a foundation for creating more elaborated projects. Since VusbPro is the main objective of this project, in-depth exploitation on other 3 stages is not within the scope of VusbPro, but fundamental understanding all of them and the USB protocol are essentially for proficiency on using VusbPro. 
 
