@@ -1,4 +1,4 @@
-# VusbPro
+# VusbPro - Virtual USB Device Vusb Rewrite
 ### An AVR-GCC-focused V-USB development project for clearer firmware, easier host communication, and better practical speed
 
 ## Introduction
