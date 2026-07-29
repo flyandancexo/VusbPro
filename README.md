@@ -1,104 +1,364 @@
-# VusbPro - Enhanced V-USB, a software-based USB device
-### High Speed USBasp firmware - New USB Bootloader using AVR MCU - libusb
+# VusbPro
+### An AVR-GCC-focused V-USB development project for clearer firmware, easier host communication, and better practical speed
 
-![VusbPro](https://github.com/flyandancexo/VusbPro/assets/66555404/f9632b5e-6cfe-4b00-8810-46677e1fc631)
+## Introduction
 
-My improvised VusbPro development setup: World faster programmer FDxICSP connected to a mini-heart 2 a Vusb compatible board and 6 wires soldering to a ICSP header connected to a tiny board, the world smallest MCU development board 20mm in diameter, not shown. 
+VusbPro is an active development project built from V-USB, the software USB implementation for classic 8-bit AVR microcontrollers. Its purpose is not merely to rename or reformat the original source. The project is focused on making V-USB easier to understand, easier to configure, easier to use from host software, and more dependable when transfer speed and code quality matter.
 
-## What is Vusb?
-V-usb is a pure software implementation of a USB 1.1 device targeting an AVR MCU. Most modern MCUs already have an internal module for communicating via USB, but most 8-bit AVR MCUs don't. With Vusb, it's possible to turn most AVR MCUs into a semi-USB 1.1 compatible device. It's not a perfect solution, nor is it fast, but being USB semi-compatible means it can be a great USB development tool. The popular micronucleus and USBasp are based on Vusb, but unfortunately, those dummies didn't contribute anything to the Vusb project.
+<p align="center">
+  <img src="img/vusbpro-cover.png" alt="VusbPro development project" width="100%">
+</p>
 
-The V-usb project itself was under maintenance for about a decade, and over that period, different projects had been created with different levels of incomprehensible code and incompetence. VusbPro is an attempt to fix it, making V-usb more accessible by rewriting everything and adding more good comments and more intuitive examples. V-usb is a very under-rated project and it can be very useful if it can be easily used by hobbyist and professional alike. 
+V-USB makes it possible to build a low-speed USB device on AVR microcontrollers that do not contain a hardware USB peripheral. That capability is useful, but the original driver is timing-sensitive, spread across C and assembly, heavily controlled by configuration macros, and not immediately clear to a developer approaching it as a complete device system.
 
-Beside rewriting all the code from V-usb and creating few new project examples, the snail slow USBasp will be updated with a guarantee 10kB/s write and 15kB/s read speed, and the USBaspbootloader will be updated to make it more user-friendly, and with auto-upload capability. And of course, few extremely high quality development boards will be developed for it.
+VusbPro addresses that problem as an engineering project. The driver, application firmware, hardware configuration, Windows driver, and host application are treated as one connected development path. The goal is to make each layer understandable without hiding the important technical details.
 
-## What is the hurdle?
-MCU, low level assembly, high level C, driver and USB are all the very-hard-to-get-over hurdles. I am an expert on all the above, except for the USB. USB stands for Universal Serial Bus. It makes life easier for everyone but the developers. USB is actually fairly complicated, and I have read few books on it over the past few months and still not 100% sure for everything, but it's more than enough to start this project. USB shouldn't be that complicated. It's the exchange of data between a device and a host. It should be very easy and intuitive, so that is the absolute main goal and objective for VusbPro. The Pro here doesn't not stand for professional, but it's proficient and productive.
+Speed is also treated as a measure of implementation quality. The FDxUISP USBasp modification is one practical example: it applies V-USB and USBasp optimization to a real programmer, then verifies the result through repeatable flash write and read testing. VusbPro uses the same direction—clearer code, controlled hardware behavior, measured performance, and fewer unnecessary limitations.
 
-# The Plan
-- Rewrite Vusb to VusbPro 1.0 (80% DONE)
-- Create a beta 10kB/s+ W/R USBasp firmware based on VusbPro 1.0
-- Enhance the algorithms from VusbPro 1.0 to VusbPro 2.0
-- Create a final high speed USBasp firmware with VusbPro 2.0
-- Create a USB bootloader using VusbPro 2.0
-- Create more example projects using VusbPro 2.0
-- Create few good development boards for VusbPro 2.0
-- Create few simple and high quality host-side templates
+<p align="center">
+  <img src="img/vusbpro-boards.jpg" alt="VusbPro-compatible AVR development boards" width="100%">
+</p>
 
-![F](https://github.com/flyandancexo/VusbPro/assets/66555404/1a1ddd36-010e-4f2a-8af8-0fbb151bcd2d)
 
-## Stage 1
-- IAR dependent code removed, so VusbPro only works with AVR-GCC compiler
-- Unnecessarily code removed, code rearranged in an orderly fashion
-- Outdated AVR code removed and/or replaced
-- Outdated C code fixed, improved code style
-- Data structure renamed back to standard
-- PS. My default tab style is 2-space as a tab
+## Development Status and Completed Work
 
-The first stage is to clean up the source code in a simplified and easy to read format with good indentations and good comments. Good commenting is the the difference between good code and bad code, so a lot of the effort are spent on rewriting the old comments and adding more comments. IAR compiler option is removed to simplify the source code, and for the fact that I don't use it and it's a paid product. VusbPro 1.0 focuses more on backward compatibility with Vusb, simplification and clarification for moving forward.
+VusbPro is still under development. The current work establishes a cleaner base for future protocol, speed, programmer, bootloader, and example-project development.
 
-## Vusb Decoded
+Completed or already demonstrated work includes:
 
-![G](https://github.com/flyandancexo/VusbPro/assets/66555404/d8483e9c-6b5f-4520-a24b-16ad8e4e512c)
+- The driver source has been reorganized for AVR-GCC development.
+- Unused IAR-specific paths have been removed from the VusbPro branch.
+- Outdated AVR and C constructs have been reviewed and simplified where practical.
+- Source formatting and comments have been rewritten to make the control flow easier to follow.
+- Original V-USB function names remain available for compatibility.
+- A separate alias layer provides clearer application-facing names without rewriting timing-critical internal interfaces.
+- Hardware selection supports Mini Heart II / xTimer, Fantasy, USBasp, and a custom configuration path.
+- USB pin configuration remains in `usbconfig.h`, where V-USB expects it.
+- A minimal initialization project has verified successful USB enumeration.
+- A complete LED blinker example has been developed for Mini Heart II.
+- The LED example supports OFF, ON, and a host-selected frequency from 1 to 10 Hz.
+- Native Windows host examples have been created with C, the Win32 API, libusb, and WinUSB.
+- A PowerShell host example has also been created as a lighter demonstration of the same protocol.
+- Static and DLL-based libusb host builds have been explored.
+- Technical documentation has been added for host-to-MCU data exchange.
+- The original IDE-less AVR build batch files are preserved for the firmware workflow.
+- FDxUISP development has already demonstrated the value of treating USBasp speed as an optimization target instead of accepting stock performance as fixed.
 
-The source code is freely available for anyone to read, but unfortunately, it's very badly written and even more badly documented, and that is exactly why most projects don't even dare to modify the so called driver code. With the rewritten VusbPro, it's clear how the driver works, but you still must be proficient in advanced C programming language namely pointer to grasp how this code actually works. Because it's also written with very bad embedded MCU code; Trying to understand that part could also be with great difficulties for people not fully understand how the MCU works. For now, we focus on the **big picture**. 
+The project is not yet a finished general-purpose USB framework. Current releases should be treated as development milestones and technical examples rather than a frozen compatibility layer.
 
-Normally, a function is defined first, then it can be called in a project for doing things, but with Vusb, it's the opposite or doing thing backward. The user needs to write the implementations for pre-defined functions for the driver to be called upon. 
+## Project Direction
 
+VusbPro has four main technical objectives:
+
+1. **Ease of use** — reduce unnecessary configuration confusion and provide direct examples that can be built and modified without first reverse-engineering the entire driver.
+2. **Code clarity** — separate application logic, hardware selection, USB configuration, and driver internals while preserving the timing-sensitive structure that V-USB requires.
+3. **Practical speed** — measure real host-to-device and device-to-host performance, then optimize the firmware and host path based on test results.
+4. **Complete examples** — provide both AVR firmware and host-side software so a developer can see the full data path instead of only one half of the USB system.
+
+The planned development path includes:
+
+- Continue cleaning and documenting the VusbPro driver base.
+- Build a dedicated V-USB transfer-rate benchmark.
+- Compare control-transfer performance at 12, 16, and 20 MHz.
+- Separate raw V-USB throughput from USBasp, ISP, and target-flash overhead.
+- Continue FDxUISP development as the main high-speed USBasp example.
+- Develop a VusbPro-based USB bootloader with a clear host workflow.
+- Add more small device examples that demonstrate one USB concept at a time.
+- Expand reusable C/libusb host templates.
+- Develop and document dedicated VusbPro-compatible AVR boards.
+
+## The Complete USB Development Path
+
+A working USB device requires more than the AVR driver alone. The complete path contains four layers:
+
+```text
+1. AVR application firmware
+2. VusbPro USB driver
+3. Windows USB function driver
+4. Host application
 ```
-These functions are assembly functions, and don't need to be bothered with:
-extern uint16_t usbMeasureFrameLength(void);
-extern uint16_t usbCrc16(uint16_t data, uint8_t len);
-extern uint16_t usbCrc16Append(uint16_t data, uint8_t len);
-ISR(USB_INTR_VECTOR); //This is the interrupt function
+
+For the current vendor-specific examples, the data path is:
+
+```text
+Windows C application
+        |
+        v
+libusb-1.0
+        |
+        v
+WinUSB.sys
+        |
+        v
+USB host controller and cable
+        |
+        v
+VusbPro on the AVR
+        |
+        v
+AVR application code
 ```
 
-![H](https://github.com/flyandancexo/VusbPro/assets/66555404/346af66e-4b95-405b-abbe-22ef366dffe3)
+The host application defines a command, libusb submits it to Windows, WinUSB provides the kernel communication path, the USB host controller sends it over D+ and D-, VusbPro decodes it, and the AVR application handles it.
 
-There are a lot of C functions, but some are macros. The most important entry point is usbFunctionSetup(); and here is the simplified connections among different functions. This is a typical example in semi-pseudo code. 
+<p align="center">
+  <img src="img/usb-architecture.png" alt="V-USB low-speed USB architecture" width="100%">
+</p>
 
+The VID and PID identify which connected USB device should be opened. They do not define the device protocol. The host and firmware must still agree on the meaning of every request number, value, returned byte, and error condition.
+
+## Low-Speed Signaling, Hardware, and Timing
+
+VusbPro receives USB through ordinary AVR GPIO pins, but the signals on those pins still follow USB low-speed rules. The host controls the bus, the device responds only when addressed, and the D+ and D- states are decoded through the interrupt-driven V-USB receive path. NRZI encoding, bit stuffing, packet timing, CRC handling, and endpoint state are handled by the driver rather than by the application code.
+
+<p align="center">
+  <img src="img/usb-signaling.png" alt="USB 1.1 low-speed signaling states and NRZI encoding" width="100%">
+</p>
+
+The hardware interface must also keep the USB lines within the expected voltage range and use a pin arrangement supported by the selected V-USB timing implementation. The reference below summarizes the host connection, AVR pin roles, common voltage-interface choices, and supported clock families.
+
+<p align="center">
+  <img src="img/hardware-timing.png" alt="V-USB hardware, pin, voltage, and timing reference" width="100%">
+</p>
+
+## Source Organization
+
+A VusbPro project is divided into three technical areas.
+
+### Application firmware
+
+The application contains the project-specific behavior. Examples include blinking an LED, reading a button, sending a counter value, programming another AVR, or implementing a bootloader command.
+
+The application should initialize the hardware, initialize VusbPro, perform the USB disconnect/reconnect sequence when required, enable interrupts, and call the USB processing function continuously.
+
+### VusbPro driver
+
+The driver contains the USB packet handling, request processing, endpoint logic, and timing-critical assembly. Most projects should not modify the assembly merely to implement a new USB command. Application-level communication normally belongs in the callback functions provided by the driver.
+
+### Configuration
+
+`VusbPro.h` contains project-level selections and readable VusbPro settings. `usbconfig.h` contains the V-USB configuration macros and the final USB pin mapping used by the driver.
+
+Hardware selection is intentionally simple:
+
+```c
+//1 = Mini Heart II / xTimer  - D- D4, D+ D2/INT0
+//2 = Fantasy                 - D- D3, D+ D2/INT0
+//3 = usbasp                  - D- B0, D+ B1, D+ also wired to D2/INT0
+//4 = Custom
+#define VusbPro_HARDWARE 1
 ```
-//Hidden functions
+
+Custom hardware uses selection 4 and supplies the required port and bit settings before compilation.
+
+## How the Firmware Starts
+
+A minimal firmware follows this sequence:
+
+```c
+int main(void){
+  //Initialize application hardware.
+
+  usb_initialize();
+
+  usbDeviceDisconnect();
+  _delay_ms(250);
+  usbDeviceConnect();
+
+  sei();
+
+  while(1){
+    usb_processing();
+
+    //Run non-blocking application logic here.
+  }
+}
+```
+
+The disconnect delay forces the host to recognize a fresh connection after reset or reprogramming. The main loop must call the USB processing function frequently. Long blocking delays, slow peripheral operations, and excessive work between calls can reduce reliability or throughput.
+
+After attachment, the host resets and enumerates the device before the application protocol can be used. Every control request then proceeds through a setup stage, an optional data stage, and a status stage.
+
+<p align="center">
+  <img src="img/usb-request-flow.png" alt="USB attachment, enumeration, and application request flow" width="100%">
+</p>
+
+The Mini Heart II LED example uses PD7 as an active-low output. The LED is OFF by default, and the host can enable blinking and select a frequency from 1 to 10 Hz.
+
+## VusbPro Request Handling
+
+A USB control transfer is larger than the application command alone. The host wraps the request in the standard USB setup, optional data, and status stages. The VusbPro application normally works with the decoded setup fields rather than the individual wire packets.
+
+<p align="center">
+  <img src="img/control-transfer.png" alt="USB control-transfer stages and packet hierarchy" width="100%">
+</p>
+
+V-USB uses callbacks. The application does not repeatedly call a function asking whether a particular command arrived. Instead, the driver receives and decodes the USB request, then calls the application function assigned to handle it.
+
+The main setup-request entry point is:
+
+```c
+usbMsgLen_t usbFunctionSetup(uchar data[8]){
+  usbRequest_t *request = (usbRequest_t *)data;
+
+  //Interpret request->bRequest, request->wValue,
+  //request->wIndex and request->wLength here.
+}
+```
+
+The eight setup bytes are interpreted as a `usbRequest_t` structure. For a small command, the request number may identify the operation and `wValue` may carry the setting. For example:
+
+```text
+Request 1, Value 0  = Blinker OFF
+Request 1, Value 1  = Blinker ON
+Request 2, Value 7  = Set frequency to 7 Hz
+Request 3           = Return current state and frequency
+```
+
+These meanings are not assigned by USB or libusb. They are the application protocol defined jointly by the host code and AVR firmware.
+
+For short transfers, `usbFunctionSetup()` can return the reply length directly. For larger transfers, V-USB can continue through `usbFunctionRead()` or `usbFunctionWrite()` so data can be generated or consumed in small pieces without requiring one large AVR RAM buffer.
+
+<p align="center">
+  <img src="img/control-callbacks.png" alt="V-USB control-transfer callback state machine" width="100%">
+</p>
+
+## What `usbPoll()` Actually Does
+
+<p align="center">
+  <img src="img/vusb-data-flow.png" alt="V-USB data flow from GPIO signaling to application callbacks" width="100%">
+</p>
+
+The USB pins are observed through interrupt-driven timing code. `usbPoll()` does not electrically poll D+ and D- in the same sense as repeatedly reading two GPIO pins. It processes packet information that the low-level receive code has captured and advances the USB state machine in the main program context.
+
+A simplified control flow is:
+
+```c
+//Low-level receive and timing code captures the USB packet.
+
 void usbPoll(void){
-	usbProcessRx( (usbRxBuf + USB_BUFSIZE + 1 - usbInputBufOffset), len);
+  //Process a received packet when one is ready.
 }
 
-void usbProcessRx( uint8_t *data, uint8_t len ){
-	usbRequest_t *rq = (void *)data;
-	replyLen = usbFunctionSetup(data);
-}
-
-//New project - Starts here
-uint8_t usbFunctionSetup(uint8_t data[8]){ 
-	usbRequest_t *rq = (void *)data;
-}
-
-int	main(void){
-	usbInit();  //Enable interrupt
-	
-	//Fake disconnect then reconnect USB
-	usbDeviceDisconnect();  
-	_delay_ms(250 ms);
-	usbDeviceConnect();
-	
-	sei();      //Enable global interrupt
-	
-	while(1){ usbPoll(); } //Forever loop
+void usbProcessRx(uint8_t *data, uint8_t len){
+  //Decode the packet and dispatch the request.
+  replyLen = usbFunctionSetup(data);
 }
 ```
 
-usbRxBuf[] is a raw RX buffer array that contains 1 byte PID, 8 bytes data, 2 bytes CRC; It's an array, but is used by pointer arithmetic as pointer to data. usbRequest_t is an 8 bytes data struct type. The data is being recasted into void* pointer, then converted to an 8-byte data structure for processing. usbFunctionSetup() returns either an uint8_t or uint16_t number, and this is the reply length for the usbProcessRx(); usbProcessRx() doesn't return anything, so the data are passed through it via the pointer. It essentially receives and sends data via the interrupt function. usbPoll() is not really doing the polling on the USB because the USB data pins are monitored by external interrupt, so what usbPoll() does is to check if new data has arrived or not, and then call usbProcessRx() to retrieve the data. This has been over-simplified, and yet still is very complicated, but it really doesn't have to be like that. It really doesn't. 
+This separation is important. The interrupt and assembly path must meet strict USB timing. The higher-level C code interprets requests and connects them to the application.
 
+## Host-Side Software
 
-## USB
+The current Windows examples use a vendor-specific USB device type with libusb and WinUSB.
 
-![I](https://github.com/flyandancexo/VusbPro/assets/66555404/d843eabe-b5b0-4dda-9b1a-284df91a9ee4)
+### WinUSB
 
-To develop one unique USB device, 4 different software stages minimal are required. VusbPro is only one of them. The other 3 are 1, USB device's own application; 2, the host side driver; and 3, the host side application. The host side can be coded using libusb, but unfortunately this claimed to be easy solution for developing USB under various platforms is obscurity in design with very lacking of good documentation and simple examples. In reality, libusb is very simple to the fully knowledgeable coder. The ultimate objective for VusbPro is the creation of 2 types of simple examples using all the possible methods on USB: 1, USB-host controls a blinking LED on a USB-device; 2, USB-device send an incrementing number to the USB-host. These rudimentary examples serve as a foundation for creating more elaborated projects. Since VusbPro is the main objective of this project, in-depth exploitation on other 3 stages is not within the scope of VusbPro, but fundamental understanding all of them and the USB protocol are essentially for proficiency on using VusbPro. 
+WinUSB is the Windows function driver assigned to the device. It provides the kernel-level path between a normal Windows application and the USB device. A vendor-specific device normally needs a suitable driver association before a libusb application can open it.
 
+Installing WinUSB does not teach Windows what each VusbPro command means. It only provides a supported communication path to the device.
 
-![VusbProNote](https://github.com/flyandancexo/VusbPro/assets/66555404/40102138-ee39-4917-ab51-7f64cb7bbd07)
+### libusb
 
-This is a long and complicated endeavor, so any support is very welcomed. Do donate whatever amount that you are comfortable with. 
+libusb provides the host application with functions for finding the device, opening it, sending USB transfers, receiving data, reporting errors, and closing the connection.
+
+For the LED example, the C host uses a standard control transfer. Conceptually, the host sends:
+
+```text
+Request type: Vendor-specific, host to device
+Request:      Set blinker state
+Value:        0 or 1
+Data stage:   None
+```
+
+The same mechanism is used to send the requested frequency or read the current status.
+
+### Native C host
+
+The native host example is written in C with the Win32 API. It uses standard Windows controls and calls libusb directly. This is the preferred direction for a small Windows utility because it has low overhead, no managed runtime requirement, direct access to libusb, and broad compatibility when built for the correct Windows architecture.
+
+The PowerShell program remains useful as an educational example because the USB commands can be tested without first building a full native application. It is not the preferred platform for final speed measurements.
+
+## Driver and Device Type
+
+The current application examples use USB class `0xFF`, meaning vendor-specific. This is suitable when the project defines its own small command protocol and uses libusb on the host.
+
+A standard class such as HID should be selected only when its standard behavior is useful. HID may avoid a custom driver installation, but it also imposes HID descriptors, report formats, polling limits, and host-side conventions. Vendor-specific control transfers are simpler for direct experiments with VusbPro and for transfer-rate testing.
+
+## Performance Development
+
+VusbPro does not treat the original USB speed as an untouchable result. Performance must be separated into layers and measured.
+
+A useful benchmark should test:
+
+- Host-to-AVR control transfers without storing the data.
+- AVR-to-host control transfers using generated data.
+- Raw mode with minimal byte processing.
+- Verified mode with a known data pattern and error counter.
+- Different control-transfer lengths.
+- AVR clock builds at 12, 16, and 20 MHz.
+- The effect of CRC and application-side processing options.
+- Direct VusbPro throughput before USBasp or target programming is added.
+
+This distinction matters because a USBasp programming result includes several possible limits:
+
+```text
+Host application overhead
+libusb and Windows transfer overhead
+V-USB control-transfer overhead
+USBasp command handling
+ISP clock rate
+Target flash page timing
+Verification reads
+```
+
+FDxUISP is an important VusbPro-related example because it turns that analysis into a real programmer. It shows that USBasp-derived firmware should be evaluated through measured write and read performance, not only by whether it can program a target successfully.
+
+## Development Rules
+
+VusbPro development follows several practical rules:
+
+- Preserve timing-critical assembly unless a change is deliberate, measured, and tested.
+- Keep hardware selection separate from application behavior.
+- Keep final V-USB pin macros in `usbconfig.h`.
+- Preserve original V-USB names where compatibility is useful.
+- Add readable aliases without forcing applications to use them.
+- Avoid long blocking work in the main loop.
+- Do not use a large RAM buffer when the transfer can be streamed.
+- Measure both speed and data correctness.
+- Test on real Windows systems, host controllers, cables, and AVR hardware.
+- Treat each working milestone as a controlled base for the next change.
+
+## Current Limitations
+
+VusbPro inherits the physical and protocol limits of low-speed V-USB. It is not a replacement for a microcontroller with a hardware full-speed USB peripheral.
+
+Important limitations include:
+
+- The USB signaling rate remains low-speed USB.
+- Packet sizes and endpoint choices are restricted.
+- Driver timing depends on supported AVR clock configurations.
+- Long interrupt blocking can break USB communication.
+- Vendor-specific Windows applications require a suitable function driver such as WinUSB.
+- A USB Mass Storage flash drive is not an appropriate primary target because standards-compliant low-speed USB does not support the bulk endpoints normally used by Mass Storage.
+
+These limits do not make V-USB useless. They define where careful engineering matters and where a hardware USB MCU is the better tool.
+
+## Intended Use
+
+VusbPro is intended for developers who want to study or build:
+
+- Small vendor-specific USB devices.
+- USB-controlled AVR applications.
+- Sensor, switch, LED, and control interfaces.
+- USBasp-derived programmers such as FDxUISP.
+- Small USB bootloaders.
+- Host-to-MCU protocol examples.
+- V-USB speed and timing experiments.
+- Educational projects that include both firmware and host software.
+
+The project assumes familiarity with AVR C, registers, interrupts, pointers, USB descriptors, and basic host-side programming. The documentation is intended to make the system traceable, not to hide the underlying mechanisms.
+
+## Buy Me a Coffee
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/flyandance?country.x=US&locale.x=en_US)
