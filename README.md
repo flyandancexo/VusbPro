@@ -11,13 +11,13 @@ VusbPro is an active development project built from V-USB, the software USB impl
 
 V-USB makes it possible to build a low-speed USB device on AVR microcontrollers that do not contain a hardware USB peripheral. That capability is useful, but the original driver is timing-sensitive, spread across C and assembly, heavily controlled by configuration macros, and not immediately clear to a developer approaching it as a complete device system.
 
+<img src="img/Vusb_Fantasy.jpg" alt="" width="500" align="left">
+
 VusbPro addresses that problem as an engineering project. The driver, application firmware, hardware configuration, Windows driver, and host application are treated as one connected development path. The goal is to make each layer understandable without hiding the important technical details.
 
 Speed is also treated as a measure of implementation quality. The FDxUISP USBasp modification is one practical example: it applies V-USB and USBasp optimization to a real programmer, then verifies the result through repeatable flash write and read testing. VusbPro uses the same direction—clearer code, controlled hardware behavior, measured performance, and fewer unnecessary limitations.
 
-<p align="center">
-  <img src="img/vusbpro-boards.jpg" alt="VusbPro-compatible AVR development boards" width="100%">
-</p>
+<br clear="left">
 
 
 ## Development Status and Completed Work
@@ -45,6 +45,10 @@ Completed or already demonstrated work includes:
 - FDxUISP development has already demonstrated the value of treating USBasp speed as an optimization target instead of accepting stock performance as fixed.
 
 The project is not yet a finished general-purpose USB framework. Current releases should be treated as development milestones and technical examples rather than a frozen compatibility layer.
+
+<p align="center">
+  <img src="img/vusbpro-boards.jpg" alt="VusbPro-compatible AVR development boards" width="100%">
+</p>
 
 ## Project Direction
 
@@ -358,6 +362,10 @@ VusbPro is intended for developers who want to study or build:
 - Educational projects that include both firmware and host software.
 
 The project assumes familiarity with AVR C, registers, interrupts, pointers, USB descriptors, and basic host-side programming. The documentation is intended to make the system traceable, not to hide the underlying mechanisms.
+
+<p align="center">
+  <img src="img/VusbProNote.jpg" alt="VusbPro development project" width="100%">
+</p>
 
 ## Buy Me a Coffee
 
